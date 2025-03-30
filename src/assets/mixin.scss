@@ -1,0 +1,28 @@
+$breakPoints: (
+  'phone': (
+    320px,
+    480px,
+  ),
+  'pad': (
+    481px,
+    768px,
+  ),
+  'desktop': 769px,
+);
+
+@mixin ResponseTo($name) {
+  $bp: map-get($breakPoints, $name);
+  @if type-of($bp) == 'list' {
+    $min: nth($bp, 1);
+    $max: nth($bp, 2);
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if type-of($bp) == 'number' {
+    @media (min-width: $bp) {
+      @content;
+    }
+  } @else {
+    @error "未知的断点: #{$name}";
+  }
+}
